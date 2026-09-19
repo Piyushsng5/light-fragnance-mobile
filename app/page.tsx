@@ -30,10 +30,77 @@ const products = [
   },
 ];
 
+type CartItem = {
+  name: string;
+  price: string;
+  image: string;
+  tag: string;
+  quantity: number;
+};
+
+const WHATSAPP_NUMBER = "919311443557";
+
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [cart, setCart] = useState<CartItem[]>([]);
+  const [cartOpen, setCartOpen] = useState(false);
 
   const closeMobileMenu = () => setMobileMenuOpen(false);
+
+  const addToCart = (product: (typeof products)[number]) => {
+    setCart((current) => {
+      const existing = current.find((item) => item.name === product.name);
+
+      if (existing) {
+        return current.map((item) =>
+          item.name === product.name
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        );
+      }
+
+      return [...current, { ...product, quantity: 1 }];
+    });
+  };
+
+  const updateQuantity = (name: string, change: number) => {
+    setCart((current) =>
+      current
+        .map((item) =>
+          item.name === name
+            ? { ...item, quantity: item.quantity + change }
+            : item
+        )
+        .filter((item) => item.quantity > 0)
+    );
+  };
+
+  const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+
+  const placeWhatsAppOrder = () => {
+    if (cart.length === 0) return;
+
+    const orderLines = cart.map(
+      (item) => `• ${item.name} × ${item.quantity} — ${item.price}`
+    );
+
+    const message = [
+      "Hi Light & Fragrance! ✨",
+      "",
+      "I'd like to place an order:",
+      ...orderLines,
+      "",
+      `Total items: ${cartCount}`,
+      "",
+      "Please confirm availability, total amount and delivery details.",
+    ].join("\n");
+
+    window.open(
+      `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`,
+      "_blank",
+      "noopener,noreferrer"
+    );
+  };
 
   return (
     <main className="min-h-screen overflow-x-hidden bg-[#fff9f1] text-[#2d1b2e]">
@@ -93,13 +160,15 @@ export default function Home() {
             </button>
 
             <button
-              aria-label="Shopping bag"
+              type="button"
+              aria-label={`Shopping bag with ${cartCount} items`}
+              onClick={() => setCartOpen(true)}
               className="relative text-xl"
             >
               🛍
 
               <span className="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-[#d85c7a] text-[9px] font-semibold text-white">
-                0
+                {cartCount}
               </span>
             </button>
 
@@ -383,6 +452,7 @@ export default function Home() {
                 name={product.name}
                 price={product.price}
                 tag={product.tag}
+                onAddToCart={() => addToCart(product)}
               />
             ))}
           </div>
@@ -707,6 +777,132 @@ export default function Home() {
           <p>Handcrafted with ♥ in India</p>
         </div>
       </footer>
+
+      {/* =====================================================
+          CART / WHATSAPP CHECKOUT
+      ====================================================== */}
+      {cartOpen && (
+        <div
+          className="fixed inset-0 z-[100] flex items-end justify-center bg-black/40 p-0 sm:items-center sm:p-5"
+          onClick={() => setCartOpen(false)}
+        >
+          <div
+            className="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-t-[28px] bg-[#fff9f1] p-5 shadow-2xl sm:rounded-[28px] sm:p-7"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-[#d85c7a]">
+                  Your order
+                </p>
+                <h2 className="mt-1 text-2xl font-medium">Shopping bag</h2>
+              </div>
+
+              <button
+                type="button"
+                aria-label="Close shopping bag"
+                onClick={() => setCartOpen(false)}
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-xl"
+              >
+                ×
+              </button>
+            </div>
+
+            {cart.length === 0 ? (
+              <div className="py-12 text-center">
+                <p className="text-3xl">🛍</p>
+                <p className="mt-4 font-semibold">Your bag is empty</p>
+                <p className="mt-2 text-sm text-[#765e56]">
+                  Add your favourite candles to place an order on WhatsApp.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setCartOpen(false);
+                    document
+                      .getElementById("shop")
+                      ?.scrollIntoView({ behavior: "smooth" });
+                  }}
+                  className="mt-6 rounded-full bg-[#d85c7a] px-7 py-3 text-sm font-semibold text-white"
+                >
+                  Shop Candles
+                </button>
+              </div>
+            ) : (
+              <>
+                <div className="mt-6 space-y-4">
+                  {cart.map((item) => (
+                    <div
+                      key={item.name}
+                      className="flex gap-3 rounded-2xl bg-white p-3"
+                    >
+                      <div className="relative h-20 w-16 shrink-0 overflow-hidden rounded-xl">
+                        <Image
+                          src={item.image}
+                          alt={item.name}
+                          fill
+                          className="object-cover"
+                          sizes="64px"
+                        />
+                      </div>
+
+                      <div className="min-w-0 flex-1">
+                        <h3 className="truncate text-sm font-semibold">
+                          {item.name}
+                        </h3>
+                        <p className="mt-1 text-xs text-[#8c6b5d]">
+                          {item.price} each
+                        </p>
+
+                        <div className="mt-2 flex items-center gap-2">
+                          <button
+                            type="button"
+                            onClick={() => updateQuantity(item.name, -1)}
+                            className="flex h-7 w-7 items-center justify-center rounded-full border border-[#dfcec0]"
+                          >
+                            −
+                          </button>
+                          <span className="w-5 text-center text-sm font-semibold">
+                            {item.quantity}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => updateQuantity(item.name, 1)}
+                            className="flex h-7 w-7 items-center justify-center rounded-full border border-[#dfcec0]"
+                          >
+                            +
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mt-6 border-t border-[#eadbd0] pt-5">
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-[#765e56]">Total items</span>
+                    <span className="font-semibold">{cartCount}</span>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={placeWhatsAppOrder}
+                    className="mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-[#25D366] px-6 py-4 text-sm font-semibold text-white shadow-lg transition hover:brightness-95"
+                  >
+                    <span className="text-lg">☏</span>
+                    Place Order on WhatsApp
+                  </button>
+
+                  <p className="mt-3 text-center text-[11px] leading-5 text-[#8c6b5d]">
+                    WhatsApp will open with your selected items and quantities
+                    already filled in.
+                  </p>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </main>
   );
 }
@@ -765,11 +961,13 @@ function ProductCard({
   name,
   price,
   tag,
+  onAddToCart,
 }: {
   image: string;
   name: string;
   price: string;
   tag: string;
+  onAddToCart: () => void;
 }) {
   return (
     <div className="group min-w-0">
@@ -797,7 +995,11 @@ function ProductCard({
 
         {/* Add button */}
         <div className="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4">
-          <button className="w-full rounded-full bg-white py-2.5 text-[11px] font-semibold shadow-lg transition hover:bg-[#d85c7a] hover:text-white sm:py-3 sm:text-sm">
+          <button
+            type="button"
+            onClick={onAddToCart}
+            className="w-full rounded-full bg-white py-2.5 text-[11px] font-semibold shadow-lg transition hover:bg-[#d85c7a] hover:text-white sm:py-3 sm:text-sm"
+          >
             Add to cart
           </button>
         </div>
