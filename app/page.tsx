@@ -452,7 +452,12 @@ export default function Home() {
                 name={product.name}
                 price={product.price}
                 tag={product.tag}
+                quantity={
+                  cart.find((item) => item.name === product.name)?.quantity ?? 0
+                }
                 onAddToCart={() => addToCart(product)}
+                onDecrease={() => updateQuantity(product.name, -1)}
+                onIncrease={() => updateQuantity(product.name, 1)}
               />
             ))}
           </div>
@@ -858,17 +863,17 @@ export default function Home() {
                           <button
                             type="button"
                             onClick={() => updateQuantity(item.name, -1)}
-                            className="flex h-7 w-7 items-center justify-center rounded-full border border-[#dfcec0]"
+                            className="flex h-9 w-9 items-center justify-center rounded-full border border-[#dfcec0] text-base"
                           >
                             −
                           </button>
-                          <span className="w-5 text-center text-sm font-semibold">
+                          <span className="w-7 text-center text-sm font-semibold">
                             {item.quantity}
                           </span>
                           <button
                             type="button"
                             onClick={() => updateQuantity(item.name, 1)}
-                            className="flex h-7 w-7 items-center justify-center rounded-full border border-[#dfcec0]"
+                            className="flex h-9 w-9 items-center justify-center rounded-full border border-[#dfcec0] text-base"
                           >
                             +
                           </button>
@@ -961,13 +966,19 @@ function ProductCard({
   name,
   price,
   tag,
+  quantity,
   onAddToCart,
+  onDecrease,
+  onIncrease,
 }: {
   image: string;
   name: string;
   price: string;
   tag: string;
+  quantity: number;
   onAddToCart: () => void;
+  onDecrease: () => void;
+  onIncrease: () => void;
 }) {
   return (
     <div className="group min-w-0">
@@ -987,21 +998,53 @@ function ProductCard({
 
         {/* Wishlist */}
         <button
+          type="button"
           aria-label={`Add ${name} to wishlist`}
           className="absolute right-2.5 top-2.5 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-base shadow-sm transition hover:bg-[#d85c7a] hover:text-white sm:right-4 sm:top-4 sm:h-10 sm:w-10 sm:text-lg"
         >
           ♡
         </button>
 
-        {/* Add button */}
+        {/* Add / Quantity selector */}
         <div className="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4">
-          <button
-            type="button"
-            onClick={onAddToCart}
-            className="w-full rounded-full bg-white py-2.5 text-[11px] font-semibold shadow-lg transition hover:bg-[#d85c7a] hover:text-white sm:py-3 sm:text-sm"
-          >
-            Add to cart
-          </button>
+          {quantity === 0 ? (
+            <button
+              type="button"
+              onClick={onAddToCart}
+              className="w-full rounded-full bg-white py-2.5 text-[11px] font-semibold shadow-lg transition hover:bg-[#d85c7a] hover:text-white sm:py-3 sm:text-sm"
+            >
+              Add to cart
+            </button>
+          ) : (
+            <div className="flex items-center justify-between rounded-full bg-white px-2 py-2 shadow-lg sm:px-3 sm:py-2.5">
+              <button
+                type="button"
+                aria-label={`Decrease ${name} quantity`}
+                onClick={onDecrease}
+                className="flex h-8 w-8 items-center justify-center rounded-full border border-[#eadbd0] text-base font-semibold transition hover:bg-[#f3dfd0] sm:h-9 sm:w-9"
+              >
+                −
+              </button>
+
+              <div className="px-2 text-center">
+                <p className="text-[9px] font-medium uppercase tracking-[0.15em] text-[#8c6b5d] sm:text-[10px]">
+                  Quantity
+                </p>
+                <p className="text-sm font-bold sm:text-base">
+                  {quantity}
+                </p>
+              </div>
+
+              <button
+                type="button"
+                aria-label={`Increase ${name} quantity`}
+                onClick={onIncrease}
+                className="flex h-8 w-8 items-center justify-center rounded-full bg-[#d85c7a] text-lg font-semibold text-white transition hover:bg-[#bd4c69] sm:h-9 sm:w-9"
+              >
+                +
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
