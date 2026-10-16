@@ -5,6 +5,14 @@ import Image from "next/image";
 import { useState } from "react";
 
 const products = [
+  
+{
+  name: "Diet Coke Candle",
+  price: "₹699",
+  image: "/images/diet-coke-candle.jpg",
+  tag: "Limited Edition",
+},
+
   {
     name: "Ethnic Mosaic Votive Candle",
     price: "₹499",
@@ -369,6 +377,7 @@ export default function Home() {
               Thoughtfully created for your home, celebrations
               and the people you love.
             </p>
+            
 
             <div className="mt-8 flex flex-wrap gap-4">
               <a
@@ -392,17 +401,42 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="relative mx-auto h-[420px] w-full max-w-lg sm:h-[550px]">
-            <div className="absolute inset-5 rounded-full bg-[#f2c5ad]" />
-            <div className="absolute inset-14 rounded-full bg-[#e99db5]" />
+          
+<div className="relative mx-auto h-[420px] w-full max-w-lg sm:h-[550px]">
+  {/* Decorative background */}
+  <div className="absolute inset-5 rounded-full bg-[#f2c5ad]" />
+  <div className="absolute inset-14 rounded-full bg-[#e99db5]" />
 
-            <div className="absolute inset-12 overflow-hidden rounded-[30px] border-[8px] border-[#fff9f1] shadow-2xl sm:inset-16">
+            {/* Main hero photo */}
+            <div className="absolute inset-8 right-16 overflow-hidden rounded-[30px] border-[6px] border-[#fff9f1] shadow-2xl sm:inset-12 sm:right-24">
               <Image
-                src="/images/03_Heart_Shaped_Rose_Bouquet_Candle.jpg"
-                alt="Heart-shaped rose bouquet candle"
+                src="/images/01_Ethnic_Mosaic_Votive_Candle.jpg"
+                alt="Ethnic Mosaic Votive Candle"
                 fill
                 priority
-                sizes="(max-width: 640px) 90vw, 450px"
+                sizes="(max-width: 640px) 75vw, 380px"
+                className="object-cover"
+              />
+            </div>
+
+            {/* Small photo: Ocean Wave */}
+            <div className="absolute right-0 top-8 h-28 w-28 overflow-hidden rounded-full border-4 border-[#fff9f1] shadow-xl sm:right-1 sm:top-12 sm:h-36 sm:w-36">
+              <Image
+                src="/images/07_Ocean_Wave_Gel_Cloud_Candle.jpg"
+                alt="Ocean Wave Gel Cloud Candle"
+                fill
+                sizes="144px"
+                className="object-cover"
+              />
+            </div>
+
+            {/* Small photo: Golden Heirloom */}
+            <div className="absolute bottom-8 left-0 h-28 w-28 overflow-hidden rounded-full border-4 border-[#fff9f1] shadow-xl sm:bottom-12 sm:h-36 sm:w-36">
+              <Image
+                src="/images/2.2_Golden_Heirloom_Candle.jpg"
+                alt="Golden Heirloom Candle"
+                fill
+                sizes="144px"
                 className="object-cover"
               />
             </div>
@@ -694,8 +728,8 @@ export default function Home() {
 
           <div className="relative h-[350px] overflow-hidden rounded-3xl sm:h-[450px]">
             <Image
-              src="/images/03_Heart_Shaped_Rose_Bouquet_Candle.jpg"
-              alt="Rose bouquet candle gift"
+              src="/images/1.2_Serenity_Buddha_Glow.jpg"
+              alt="Serenity Buddha Glow"
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"
               className="object-cover"
