@@ -152,9 +152,9 @@ const products = [
     tag: 'Floral',
   },
   {
-    name: 'Golden Filigree Candle',
+    name: 'Purple Rain',
     price: '₹899',
-    image: '/images/3.4_Golden_Filigree_Candle.jpg',
+    image: '/images/purple-rain.jpg',
     tag: 'Artisan',
   },
   {
@@ -167,6 +167,38 @@ const products = [
 
 type Product = (typeof products)[number];
 
+type ProductReview = {
+  name: string;
+  rating: number;
+  comment: string;
+};
+
+const productDetails: Record<
+  string,
+  { description: string; features: string[]; reviews: ProductReview[] }
+> = {
+  "Diet Coke Candle": {
+    description:
+      "A playful, statement-making candle inspired by the iconic Diet Coke can. A fun addition to your collection or a quirky gift.",
+    features: ["Limited Edition", "Statement design", "Great for gifting"],
+    reviews: [],
+  },
+  "Ethnic Mosaic Votive Candle": {
+    description:
+      "A decorative handcrafted candle featuring an intricate mosaic-inspired look, perfect for adding warmth and character to your space.",
+    features: ["Handcrafted design", "Decorative accent", "Thoughtful gift"],
+    reviews: [],
+  },
+};
+
+const defaultProductDetails = {
+  description:
+    "Discover a thoughtfully designed candle from Light & Fragrance, created to bring beauty and warmth to your home or make a special gift.",
+  features: ["Decorative design", "Made for gifting", "Light & Fragrance collection"],
+  reviews: [] as ProductReview[],
+};
+
+
 type CartItem = Product & {
   quantity: number;
 };
@@ -178,6 +210,12 @@ export default function Home() {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [cartOpen, setCartOpen] = useState(false);
   const [collectionPage, setCollectionPage] = useState(1);
+  const [selectedProduct, setSelectedProduct] =
+  useState<Product | null>(null);
+
+const [activeProductPhoto, setActiveProductPhoto] = useState(0);
+
+const [productQuantity, setProductQuantity] = useState(1);
 
   const cartCount = cart.reduce(
     (total, item) => total + item.quantity,
@@ -299,17 +337,35 @@ export default function Home() {
           </nav>
 
           <div className="flex items-center gap-3">
-            <button
-              type="button"
-              aria-label="Open shopping bag"
-              onClick={() => setCartOpen(true)}
-              className="relative rounded-full p-2 text-xl hover:bg-[#f3dfd0]"
-            >
-              🛍️
-              <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-[#d85c7a] text-[10px] text-white">
-                {cartCount}
-              </span>
-            </button>
+            
+<button
+  type="button"
+  aria-label="Open shopping bag"
+  onClick={() => setCartOpen(true)}
+  className="group relative flex h-11 w-11 items-center justify-center rounded-full border border-[#eadbd0] bg-[#fffaf4] transition duration-300 hover:border-[#b77c70] hover:bg-[#f7e9df] sm:h-12 sm:w-12"
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="#B77C70"
+    strokeWidth="1.35"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="h-[23px] w-[23px] transition-transform duration-300 group-hover:-translate-y-0.5"
+    aria-hidden="true"
+  >
+    <path d="M5.5 8.5h13l1 11h-15l1-11Z" />
+    <path d="M9 9V6.5a3 3 0 0 1 6 0V9" />
+    <path d="M9 12.5c.4.8 1.1 1.2 2 1.2" stroke="#D5A18E" />
+  </svg>
+
+  <span
+    className="absolute -right-1 -top-1 flex h-[19px] min-w-[19px] items-center justify-center rounded-full border border-[#fffaf4] bg-[#B77C70] px-1 text-[10px] font-semibold text-white shadow-sm"
+  >
+    {cartCount}
+  </span>
+</button>
 
             <button
               type="button"
@@ -550,71 +606,107 @@ export default function Home() {
                     ?.quantity ?? 0;
 
                 return (
-                  <div key={product.name} className="min-w-0">
-                    <div className="group relative aspect-[4/5] overflow-hidden rounded-2xl bg-[#f3e9df]">
-                      <Image
-                        src={product.image}
-                        alt={product.name}
-                        fill
-                        sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
-                        className="object-cover transition duration-500 group-hover:scale-105"
-                      />
+                 
+<div key={product.name} className="min-w-0">
+  <div
+    role="button"
+    tabIndex={0}
+    aria-label={`View details for ${product.name}`}
+    onClick={() => {
+      setSelectedProduct(product);
+      setActiveProductPhoto(0);
+      setProductQuantity(1);
+    }}
+    onKeyDown={(event) => {
+      // Only open the overview when the card itself has focus.
+      // Keyboard actions on nested buttons must not open it.
+      if (event.target !== event.currentTarget) return;
 
-                      <span className="absolute left-2 top-2 rounded-full bg-white/90 px-2.5 py-1 text-[9px] font-semibold uppercase tracking-wider sm:left-3 sm:top-3 sm:text-[10px]">
-                        {product.tag}
-                      </span>
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        setSelectedProduct(product);
+        setActiveProductPhoto(0);
+        setProductQuantity(1);
+      }
+    }}
+    className="group relative aspect-[4/5] cursor-pointer overflow-hidden rounded-2xl bg-[#f3e9df]"
+  >
+    <Image
+      src={product.image}
+      alt={product.name}
+      fill
+      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
+      className="object-cover transition duration-500 group-hover:scale-105"
+    />
 
-                      <div className="absolute bottom-3 left-2 right-2 sm:bottom-4 sm:left-3 sm:right-3">
-                        {quantity === 0 ? (
-                          <button
-                            type="button"
-                            onClick={() => addToCart(product)}
-                            className="w-full rounded-full bg-white py-3 text-xs font-semibold shadow-lg transition hover:bg-[#d85c7a] hover:text-white sm:text-sm"
-                          >
-                            Add to cart
-                          </button>
-                        ) : (
-                          <div className="flex items-center justify-between rounded-full bg-white px-2 py-2 shadow-lg">
-                            <button
-                              type="button"
-                              aria-label={`Decrease ${product.name} quantity`}
-                              onClick={() =>
-                                updateQuantity(product.name, -1)
-                              }
-                              className="flex h-8 w-8 items-center justify-center rounded-full border border-[#eadbd0] text-lg"
-                            >
-                              −
-                            </button>
-                            <span className="text-sm font-semibold">
-                              {quantity}
-                            </span>
-                            <button
-                              type="button"
-                              aria-label={`Increase ${product.name} quantity`}
-                              onClick={() =>
-                                updateQuantity(product.name, 1)
-                              }
-                              className="flex h-8 w-8 items-center justify-center rounded-full bg-[#d85c7a] text-lg text-white"
-                            >
-                              +
-                            </button>
-                          </div>
-                        )}
-                      </div>
-                    </div>
+    <span className="absolute left-2 top-2 rounded-full bg-white/90 px-2.5 py-1 text-[9px] font-semibold uppercase tracking-wider sm:left-3 sm:top-3 sm:text-[10px]">
+      {product.tag}
+    </span>
 
-                    <div className="mt-3">
-                      <h3 className="text-sm font-semibold leading-5 sm:text-base">
-                        {product.name}
-                      </h3>
-                      <p className="mt-1 text-sm font-semibold">
-                        {product.price}
-                      </p>
-                      <p className="mt-1 text-xs text-[#8c6b5d]">
-                        Handcrafted candle
-                      </p>
-                    </div>
-                  </div>
+    <div className="absolute bottom-3 left-2 right-2 sm:bottom-4 sm:left-3 sm:right-3">
+      {quantity === 0 ? (
+        <button
+          type="button"
+          onClick={(event) => {
+            event.stopPropagation();
+            addToCart(product);
+          }}
+          className="w-full rounded-full bg-white py-3 text-xs font-semibold shadow-lg transition hover:bg-[#d85c7a] hover:text-white sm:text-sm"
+        >
+          Add to cart
+        </button>
+      ) : (
+        <div
+          className="flex items-center justify-between rounded-full bg-white px-2 py-2 shadow-lg"
+          onClick={(event) => event.stopPropagation()}
+        >
+          <button
+            type="button"
+            aria-label={`Decrease ${product.name} quantity`}
+            onClick={(event) => {
+              event.stopPropagation();
+              updateQuantity(product.name, -1);
+            }}
+            className="flex h-8 w-8 items-center justify-center rounded-full border border-[#eadbd0] text-lg transition hover:bg-[#f7e9df]"
+          >
+            −
+          </button>
+
+          <span className="text-sm font-semibold">
+            {quantity}
+          </span>
+
+          <button
+            type="button"
+            aria-label={`Increase ${product.name} quantity`}
+            onClick={(event) => {
+              event.stopPropagation();
+              addToCart(product);
+            }}
+            className="flex h-8 w-8 items-center justify-center rounded-full bg-[#d85c7a] text-lg text-white transition hover:bg-[#bd4c69]"
+          >
+            +
+          </button>
+        </div>
+      )}
+    </div>
+  </div>
+
+  <div className="mt-3">
+    <h3 className="text-sm font-semibold leading-5 sm:text-base">
+      {product.name}
+    </h3>
+
+    <p className="mt-1 text-sm font-semibold">
+      {product.price}
+    </p>
+
+    <p className="mt-1 text-xs text-[#8c6b5d]">
+      Handcrafted candle
+    </p>
+  </div>
+</div>
+
                 );
               })}
           </div>
@@ -860,144 +952,374 @@ export default function Home() {
         </div>
       </footer>
 
-      {/* SHOPPING CART */}
+      
+      {/* PREMIUM SHOPPING BAG */}
       {cartOpen && (
         <div
-          className="fixed inset-0 z-[100] flex items-end justify-center bg-black/50 sm:items-center sm:p-5"
+          className="fixed inset-0 z-[100] flex justify-end bg-[#21151f]/50 backdrop-blur-sm"
           onClick={() => setCartOpen(false)}
         >
           <div
             role="dialog"
             aria-modal="true"
             aria-labelledby="cart-title"
-            className="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-t-3xl bg-[#fff9f1] p-5 shadow-2xl sm:rounded-3xl sm:p-7"
+            className="flex h-full w-full max-w-md flex-col bg-[#fffaf4] shadow-2xl animate-in slide-in-from-right duration-300"
             onClick={(event) => event.stopPropagation()}
           >
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[#d85c7a]">
-                  Your order
-                </p>
-                <h2 id="cart-title" className="mt-1 text-2xl font-medium">
-                  Shopping Bag
-                </h2>
-              </div>
-              <button
-                type="button"
-                aria-label="Close shopping bag"
-                onClick={() => setCartOpen(false)}
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-xl"
-              >
-                ×
-              </button>
-            </div>
+            {/* Header */}
+            <div className="border-b border-[#eadbd0] px-6 py-6 sm:px-8">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-[#c66b7b]">
+                    LIGHT & FRAGRANCE
+                  </p>
+                  <h2
+                    id="cart-title"
+                    className="mt-2 font-serif text-3xl text-[#352332]"
+                  >
+                    Your shopping bag
+                  </h2>
+                  <p className="mt-1 text-sm text-[#8c756d]">
+                    {cartCount} {cartCount === 1 ? "beautiful find" : "beautiful finds"}
+                  </p>
+                </div>
 
-            {cart.length === 0 ? (
-              <div className="py-12 text-center">
-                <p className="text-3xl">🛍️</p>
-                <p className="mt-4 font-semibold">
-                  Your bag is empty
-                </p>
-                <p className="mt-2 text-sm text-[#765e56]">
-                  Add your favourite candles to place an order.
-                </p>
                 <button
                   type="button"
-                  onClick={() => {
-                    setCartOpen(false);
-                    document
-                      .getElementById("shop")
-                      ?.scrollIntoView({ behavior: "smooth" });
-                  }}
-                  className="mt-6 rounded-full bg-[#d85c7a] px-7 py-3 text-sm font-semibold text-white"
+                  aria-label="Close shopping bag"
+                  onClick={() => setCartOpen(false)}
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-[#eadbd0] text-2xl text-[#352332] transition hover:bg-[#f3e5da]"
                 >
-                  Shop Candles
+                  ×
                 </button>
               </div>
-            ) : (
-              <>
-                <div className="mt-6 space-y-4">
+
+              {cart.length > 0 && (
+                <div className="mt-5 h-1 overflow-hidden rounded-full bg-[#f0e3d8]">
+                  <div className="h-full w-full rounded-full bg-[#d58a91]" />
+                </div>
+              )}
+            </div>
+
+            {/* Cart contents */}
+            <div className="flex-1 overflow-y-auto px-5 py-5 sm:px-8">
+              {cart.length === 0 ? (
+                <div className="flex h-full min-h-[300px] flex-col items-center justify-center text-center">
+                  <div className="flex h-24 w-24 items-center justify-center rounded-full bg-[#f3e5da] text-4xl">
+                    🕯️
+                  </div>
+                  <h3 className="mt-6 font-serif text-2xl text-[#352332]">
+                    A little light is missing
+                  </h3>
+                  <p className="mt-3 max-w-xs text-sm leading-7 text-[#8c756d]">
+                    Your bag is waiting for something beautiful. Explore our handcrafted candles and find your favourite.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setCartOpen(false);
+                      document.getElementById("shop")?.scrollIntoView({
+                        behavior: "smooth",
+                      });
+                    }}
+                    className="mt-6 rounded-full bg-[#352332] px-8 py-3.5 text-sm font-semibold text-white transition hover:bg-[#52394f]"
+                  >
+                    Discover candles
+                  </button>
+                </div>
+              ) : (
+                <div className="space-y-5">
                   {cart.map((item) => (
                     <div
                       key={item.name}
-                      className="flex gap-3 rounded-2xl bg-white p-3"
+                      className="flex gap-4 border-b border-[#eadbd0] pb-5"
                     >
-                      <div className="relative h-24 w-20 shrink-0 overflow-hidden rounded-xl">
+                      <div className="relative h-28 w-24 shrink-0 overflow-hidden rounded-2xl bg-[#f3e9df]">
                         <Image
                           src={item.image}
                           alt={item.name}
                           fill
-                          sizes="80px"
+                          sizes="96px"
                           className="object-cover"
                         />
                       </div>
 
-                      <div className="min-w-0 flex-1">
-                        <h3 className="text-sm font-semibold">
+                      <div className="flex min-w-0 flex-1 flex-col">
+                        <p className="text-[9px] font-semibold uppercase tracking-[0.2em] text-[#c66b7b]">
+                          HANDCRAFTED
+                        </p>
+                        <h3 className="mt-1 text-sm font-semibold leading-5 text-[#352332]">
                           {item.name}
                         </h3>
-                        <p className="mt-1 text-sm text-[#8c6b5d]">
+                        <p className="mt-1 text-sm text-[#8c756d]">
                           {item.price} each
                         </p>
 
-                        <div className="mt-2 flex items-center gap-3">
-                          <button
-                            type="button"
-                            aria-label={`Decrease ${item.name} quantity`}
-                            onClick={() =>
-                              updateQuantity(item.name, -1)
-                            }
-                            className="flex h-8 w-8 items-center justify-center rounded-full border border-[#dfcec0]"
-                          >
-                            −
-                          </button>
-                          <span className="text-sm font-semibold">
-                            {item.quantity}
-                          </span>
-                          <button
-                            type="button"
-                            aria-label={`Increase ${item.name} quantity`}
-                            onClick={() =>
-                              updateQuantity(item.name, 1)
-                            }
-                            className="flex h-8 w-8 items-center justify-center rounded-full border border-[#dfcec0]"
-                          >
-                            +
-                          </button>
+                        <div className="mt-auto flex items-end justify-between gap-2 pt-3">
+                          <div className="flex items-center rounded-full border border-[#e5d4c7] bg-white p-1">
+                            <button
+                              type="button"
+                              aria-label={`Decrease ${item.name} quantity`}
+                              onClick={() => updateQuantity(item.name, -1)}
+                              className="flex h-7 w-7 items-center justify-center rounded-full text-lg transition hover:bg-[#f3e5da]"
+                            >
+                              −
+                            </button>
+                            <span className="min-w-7 text-center text-xs font-semibold">
+                              {item.quantity}
+                            </span>
+                            <button
+                              type="button"
+                              aria-label={`Increase ${item.name} quantity`}
+                              onClick={() => updateQuantity(item.name, 1)}
+                              className="flex h-7 w-7 items-center justify-center rounded-full text-lg transition hover:bg-[#f3e5da]"
+                            >
+                              +
+                            </button>
+                          </div>
+
+                          <p className="text-sm font-semibold text-[#352332]">
+                            ₹{(
+                              Number(item.price.replace(/[₹,]/g, "")) *
+                              item.quantity
+                            ).toLocaleString("en-IN")}
+                          </p>
                         </div>
                       </div>
                     </div>
                   ))}
                 </div>
+              )}
+            </div>
 
-                <div className="mt-6 border-t border-[#eadbd0] pt-5">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-[#765e56]">
-                      Total items
-                    </span>
-                    <span className="font-semibold">{cartCount}</span>
-                  </div>
-                  <div className="mt-3 flex justify-between text-base">
-                    <span className="font-semibold">Estimated total</span>
-                    <span className="font-semibold">
-                      ₹{cartTotal.toLocaleString("en-IN")}
-                    </span>
-                  </div>
-
-                  <button
-                    type="button"
-                    onClick={placeWhatsAppOrder}
-                    className="mt-5 w-full rounded-full bg-[#25D366] px-6 py-4 text-sm font-semibold text-white transition hover:brightness-95"
-                  >
-                    ☎ Place Order on WhatsApp
-                  </button>
-                  <p className="mt-3 text-center text-xs leading-5 text-[#8c6b5d]">
-                    WhatsApp will open with your selected items,
-                    quantities and estimated total.
-                  </p>
+            {/* Order summary */}
+            {cart.length > 0 && (
+              <div className="border-t border-[#eadbd0] bg-white px-6 py-6 sm:px-8">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-[#8c756d]">Items in your bag</span>
+                  <span className="font-medium text-[#352332]">
+                    {cartCount}
+                  </span>
                 </div>
-              </>
+
+                <div className="mt-3 flex items-center justify-between">
+                  <span className="text-base font-semibold text-[#352332]">
+                    Estimated total
+                  </span>
+                  <span className="font-serif text-2xl text-[#352332]">
+                    ₹{cartTotal.toLocaleString("en-IN")}
+                  </span>
+                </div>
+
+                <p className="mt-2 text-xs leading-5 text-[#8c756d]">
+                  Delivery charges, availability and final order details will be confirmed on WhatsApp.
+                </p>
+
+                <button
+                  type="button"
+                  onClick={placeWhatsAppOrder}
+                  className="mt-5 flex w-full items-center justify-center gap-3 rounded-full bg-[#352332] px-6 py-4 text-sm font-semibold text-white shadow-lg transition duration-300 hover:bg-[#52394f] hover:shadow-xl"
+                >
+                  <span>Continue on WhatsApp</span>
+                  <span aria-hidden="true">↗</span>
+                </button>
+
+                <p className="mt-4 text-center text-[10px] uppercase tracking-[0.18em] text-[#9b8277]">
+                  Made with love · Handcrafted in India
+                </p>
+              </div>
             )}
+          </div>
+        </div>
+      )}
+
+
+      {/* PRODUCT OVERVIEW MODAL */}
+      {selectedProduct && (
+        <div
+          className="fixed inset-0 z-[120] flex items-center justify-center bg-black/45 p-3 backdrop-blur-md sm:p-6"
+          onClick={() => setSelectedProduct(null)}
+        >
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="product-modal-title"
+            className="relative max-h-[92vh] w-full max-w-5xl overflow-y-auto rounded-3xl bg-[#fff9f1] p-5 shadow-2xl sm:p-8"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <button
+              type="button"
+              aria-label="Close product overview"
+              onClick={() => setSelectedProduct(null)}
+              className="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white text-2xl shadow"
+            >
+              ×
+            </button>
+
+            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.25em] text-[#d85c7a]">
+              Light & Fragrance · Product Details
+            </p>
+
+            <div className="grid gap-7 pt-3 md:grid-cols-2">
+              <div>
+                <div className="relative aspect-square overflow-hidden rounded-2xl bg-[#f3e9df]">
+                  <Image
+                    src={selectedProduct.image}
+                    alt={selectedProduct.name}
+                    fill
+                    sizes="(max-width: 768px) 90vw, 45vw"
+                    className="object-cover"
+                  />
+                </div>
+
+                <div className="mt-3 grid grid-cols-3 gap-3">
+                  {[0, 1, 2].map((photoIndex) => (
+                    <button
+                      key={photoIndex}
+                      type="button"
+                      onClick={() => setActiveProductPhoto(photoIndex)}
+                      aria-label={`View product photo ${photoIndex + 1}`}
+                      className={`relative aspect-square overflow-hidden rounded-xl border-2 ${
+                        activeProductPhoto === photoIndex
+                          ? "border-[#d85c7a]"
+                          : "border-transparent"
+                      }`}
+                    >
+                      <Image
+                        src={selectedProduct.image}
+                        alt={`${selectedProduct.name} view ${photoIndex + 1}`}
+                        fill
+                        sizes="120px"
+                        className="object-cover"
+                      />
+                    </button>
+                  ))}
+                </div>
+                <p className="mt-2 text-xs text-[#8c6b5d]">
+                  Add alternate product photos to display different angles here.
+                </p>
+              </div>
+
+              <div>
+                <span className="inline-block rounded-full bg-[#f3dfd0] px-3 py-1 text-xs font-semibold text-[#8c4c5e]">
+                  {selectedProduct.tag}
+                </span>
+
+                <h2
+                  id="product-modal-title"
+                  className="mt-4 pr-8 text-3xl font-medium leading-tight sm:text-4xl"
+                >
+                  {selectedProduct.name}
+                </h2>
+
+                <p className="mt-4 text-2xl font-semibold">
+                  {selectedProduct.price}
+                </p>
+
+                <p className="mt-4 leading-7 text-[#765e56]">
+                  {(productDetails[selectedProduct.name] ??
+                    defaultProductDetails).description}
+                </p>
+
+                <ul className="mt-5 space-y-2 text-sm text-[#765e56]">
+                  {(productDetails[selectedProduct.name] ??
+                    defaultProductDetails).features.map((feature) => (
+                    <li key={feature}>✦ {feature}</li>
+                  ))}
+                </ul>
+
+                <div className="mt-6 flex items-center gap-4">
+                  <span className="text-sm font-semibold">Quantity</span>
+                  <div className="flex items-center gap-4 rounded-full border border-[#eadbd0] bg-white px-3 py-2">
+                    <button
+                      type="button"
+                      aria-label="Decrease quantity"
+                      disabled={productQuantity <= 1}
+                      onClick={() =>
+                        setProductQuantity((quantity) =>
+                          Math.max(1, quantity - 1)
+                        )
+                      }
+                      className="text-xl disabled:opacity-30"
+                    >
+                      −
+                    </button>
+                    <span className="min-w-4 text-center">
+                      {productQuantity}
+                    </span>
+                    <button
+                      type="button"
+                      aria-label="Increase quantity"
+                      onClick={() =>
+                        setProductQuantity((quantity) => quantity + 1)
+                      }
+                      className="text-xl"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    for (let i = 0; i < productQuantity; i++) {
+                      addToCart(selectedProduct);
+                    }
+                    setSelectedProduct(null);
+                    setCartOpen(true);
+                  }}
+                  className="mt-6 w-full rounded-full bg-[#d85c7a] px-6 py-4 text-sm font-semibold text-white transition hover:bg-[#bd4c69]"
+                >
+                  Add to Bag · ₹
+                  {(
+                    Number(selectedProduct.price.replace(/[₹,]/g, "")) *
+                    productQuantity
+                  ).toLocaleString("en-IN")}
+                </button>
+
+                <div className="mt-9 border-t border-[#eadbd0] pt-6">
+                  <h3 className="text-xl font-semibold">
+                    Customer Reviews
+                  </h3>
+                  <p className="mt-2 text-sm text-[#765e56]">
+                    Reviews from customers who have experienced this candle.
+                  </p>
+
+                  {(productDetails[selectedProduct.name] ??
+                    defaultProductDetails).reviews.length === 0 ? (
+                    <div className="mt-4 rounded-2xl bg-white p-5">
+                      <p className="font-medium">
+                        Be the first to review this candle
+                      </p>
+                      <p className="mt-2 text-sm leading-6 text-[#765e56]">
+                        Customer reviews will appear here when genuine
+                        feedback is collected.
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="mt-4 space-y-4">
+                      {(productDetails[selectedProduct.name] ??
+                        defaultProductDetails).reviews.map((review, index) => (
+                        <div
+                          key={`${review.name}-${index}`}
+                          className="rounded-2xl bg-white p-4"
+                        >
+                          <p className="font-semibold">{review.name}</p>
+                          <p className="mt-1 text-sm text-amber-600">
+                            {"★".repeat(review.rating)}
+                            {"☆".repeat(5 - review.rating)}
+                          </p>
+                          <p className="mt-2 text-sm leading-6 text-[#765e56]">
+                            {review.comment}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       )}
