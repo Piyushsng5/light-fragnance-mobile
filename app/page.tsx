@@ -1173,7 +1173,27 @@ Showing candles{" "}
                           "/images/diet-coke-2.jpg",
                           "/images/diet-coke-3.jpg",
                         ]
+                     : selectedProduct.name === "Ethnic Mosaic Votive Candle"
+                      ? [
+                          selectedProduct.image,
+                          "/images/ethnic mosaic votive 1.jpg",
+                          "/images/ethnic mosaic votive 2.jpg",
+                        ]
+
+                         : selectedProduct.name === "Serene Veiled Maiden Candle"
+                      ? [
+                          selectedProduct.image,
+                          "/images/01_Serene_Veiled_Maiden_Bust_Candle.jpg",
+                          "/images/02_2Serene_Veiled_Maiden_Bust_Candle.jpg.jpg",
+                        ]
+                        : selectedProduct.name === "Ocean Wave Gel Cloud Candle"
+                      ? [
+                          selectedProduct.image,
+                          "/images/ocean_1.jpg",
+                          "/images/ocean_2.jpg",
+                        ]
                       : [selectedProduct.image];
+                     
 
                   const currentPhoto =
                     photos[activeProductPhoto] ?? photos[0];
