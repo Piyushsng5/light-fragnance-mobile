@@ -1,18 +1,15 @@
-
 "use client";
 
 import Image from "next/image";
 import { useState } from "react";
 
 const products = [
-  
-{
-  name: "Diet Coke Candle",
-  price: "₹699",
-  image: "/images/diet-coke-candle.jpg",
-  tag: "Limited Edition",
-},
-
+  {
+    name: "Diet Coke Candle",
+    price: "₹699",
+    image: "/images/diet-coke-candle.jpg",
+    tag: "Limited Edition",
+  },
   {
     name: "Ethnic Mosaic Votive Candle",
     price: "₹499",
@@ -74,94 +71,94 @@ const products = [
     tag: "Classic",
   },
   {
-    name: 'Botanical Bloom Glow',
-    price: '₹699',
-    image: '/images/1.1_Botanical_Bloom_Glow.jpg',
-    tag: 'Botanical',
+    name: "Botanical Bloom Glow",
+    price: "₹699",
+    image: "/images/1.1_Botanical_Bloom_Glow.jpg",
+    tag: "Botanical",
   },
   {
-    name: 'Serenity Buddha Glow',
-    price: '₹799',
-    image: '/images/1.2_Serenity_Buddha_Glow.jpg',
-    tag: 'Artisan',
+    name: "Serenity Buddha Glow",
+    price: "₹799",
+    image: "/images/1.2_Serenity_Buddha_Glow.jpg",
+    tag: "Artisan",
   },
   {
-    name: 'Rose Whisper Candle',
-    price: '₹699',
-    image: '/images/1.3_Rose_Whisper_Candle.jpg',
-    tag: 'Floral',
+    name: "Rose Whisper Candle",
+    price: "₹699",
+    image: "/images/1.3_Rose_Whisper_Candle.jpg",
+    tag: "Floral",
   },
   {
-    name: 'Velvet Heartlight Candle',
-    price: '₹799',
-    image: '/images/1.4_Velvet_Heartlight_Candle.jpg',
-    tag: 'Bestseller',
+    name: "Velvet Heartlight Candle",
+    price: "₹799",
+    image: "/images/1.4_Velvet_Heartlight_Candle.jpg",
+    tag: "Bestseller",
   },
   {
-    name: 'Amber Peace Pillar',
-    price: '₹599',
-    image: '/images/1.5_Amber_Peace_Pillar.jpg',
-    tag: 'Classic',
+    name: "Amber Peace Pillar",
+    price: "₹599",
+    image: "/images/1.5_Amber_Peace_Pillar.jpg",
+    tag: "Classic",
   },
   {
-    name: 'Ivory Dream Pillars',
-    price: '₹699',
-    image: '/images/2.1_Ivory_Dream_Pillars.jpg',
-    tag: 'Minimal',
+    name: "Ivory Dream Pillars",
+    price: "₹699",
+    image: "/images/2.1_Ivory_Dream_Pillars.jpg",
+    tag: "Minimal",
   },
   {
-    name: 'Golden Heirloom Candle',
-    price: '₹799',
-    image: '/images/2.2_Golden_Heirloom_Candle.jpg',
-    tag: 'Statement',
+    name: "Golden Heirloom Candle",
+    price: "₹799",
+    image: "/images/2.2_Golden_Heirloom_Candle.jpg",
+    tag: "Statement",
   },
   {
-    name: 'Rosewater Layers Candle',
-    price: '₹699',
-    image: '/images/2.3_Rosewater_Layers_Candle.jpg',
-    tag: 'Layered',
+    name: "Rosewater Layers Candle",
+    price: "₹699",
+    image: "/images/2.3_Rosewater_Layers_Candle.jpg",
+    tag: "Layered",
   },
   {
-    name: 'Blush Ribbed Elegance',
-    price: '₹499',
-    image: '/images/2.4_Blush_Ribbed_Elegance.jpg',
-    tag: 'Minimal',
+    name: "Blush Ribbed Elegance",
+    price: "₹499",
+    image: "/images/2.4_Blush_Ribbed_Elegance.jpg",
+    tag: "Minimal",
   },
   {
-    name: 'Crimson Rose Sculpture',
-    price: '₹799',
-    image: '/images/2.5_Crimson_Rose_Sculpture.jpg',
-    tag: 'Floral',
+    name: "Crimson Rose Sculpture",
+    price: "₹799",
+    image: "/images/2.5_Crimson_Rose_Sculpture.jpg",
+    tag: "Floral",
   },
   {
-    name: 'Sunlit Citrus Glow',
-    price: '₹699',
-    image: '/images/3.1_Sunlit_Citrus_Glow.jpg',
-    tag: 'Fresh',
+    name: "Sunlit Citrus Glow",
+    price: "₹699",
+    image: "/images/3.1_Sunlit_Citrus_Glow.jpg",
+    tag: "Fresh",
   },
   {
-    name: 'Caramel Cake Delight',
-    price: '₹799',
-    image: '/images/3.2_Caramel_Cake_Delight.jpg',
-    tag: 'Dessert',
+    name: "Caramel Cake Delight",
+    price: "₹799",
+    image: "/images/3.2_Caramel_Cake_Delight.jpg",
+    tag: "Dessert",
   },
   {
-    name: 'Blooming Peony Candle',
-    price: '₹699',
-    image: '/images/3.3_Blooming_Peony_Candle.jpg',
-    tag: 'Floral',
+    name: "Blooming Peony Candle",
+    price: "₹699",
+    image: "/images/3.3_Blooming_Peony_Candle.jpg",
+    tag: "Floral",
   },
   {
-    name: 'Purple Rain',
-    price: '₹899',
-    image: '/images/purple-rain.jpg',
-    tag: 'Artisan',
+    name: "Purple Rain",
+    price: "₹899",
+    image: "/images/purple-rain.jpg",
+    tag: "Artisan",
   },
   {
-    name: 'Ocean Breeze Gel Candle',
-    price: '₹799',
-    image: '/images/3.5_Ocean_Breeze_Gel_Candle.jpg',
-    tag: 'Oceanic',
+    name: "Ocean Breeze Gel Candle",
+    price: "₹799",
+    image: "/images/3.5_Ocean_Breeze_Gel_Candle.jpg",
+    tag: "Oceanic",
   },
 ];
 
@@ -175,18 +172,30 @@ type ProductReview = {
 
 const productDetails: Record<
   string,
-  { description: string; features: string[]; reviews: ProductReview[] }
+  {
+    description: string;
+    features: string[];
+    reviews: ProductReview[];
+  }
 > = {
   "Diet Coke Candle": {
     description:
       "A playful, statement-making candle inspired by the iconic Diet Coke can. A fun addition to your collection or a quirky gift.",
-    features: ["Limited Edition", "Statement design", "Great for gifting"],
+    features: [
+      "Limited Edition",
+      "Statement design",
+      "Great for gifting",
+    ],
     reviews: [],
   },
   "Ethnic Mosaic Votive Candle": {
     description:
       "A decorative handcrafted candle featuring an intricate mosaic-inspired look, perfect for adding warmth and character to your space.",
-    features: ["Handcrafted design", "Decorative accent", "Thoughtful gift"],
+    features: [
+      "Handcrafted design",
+      "Decorative accent",
+      "Thoughtful gift",
+    ],
     reviews: [],
   },
 };
@@ -194,10 +203,13 @@ const productDetails: Record<
 const defaultProductDetails = {
   description:
     "Discover a thoughtfully designed candle from Light & Fragrance, created to bring beauty and warmth to your home or make a special gift.",
-  features: ["Decorative design", "Made for gifting", "Light & Fragrance collection"],
+  features: [
+    "Decorative design",
+    "Made for gifting",
+    "Light & Fragrance collection",
+  ],
   reviews: [] as ProductReview[],
 };
-
 
 type CartItem = Product & {
   quantity: number;
@@ -211,11 +223,9 @@ export default function Home() {
   const [cartOpen, setCartOpen] = useState(false);
   const [collectionPage, setCollectionPage] = useState(1);
   const [selectedProduct, setSelectedProduct] =
-  useState<Product | null>(null);
-
-const [activeProductPhoto, setActiveProductPhoto] = useState(0);
-
-const [productQuantity, setProductQuantity] = useState(1);
+    useState<Product | null>(null);
+  const [activeProductPhoto, setActiveProductPhoto] = useState(0);
+  const [productQuantity, setProductQuantity] = useState(1);
 
   const cartCount = cart.reduce(
     (total, item) => total + item.quantity,
@@ -257,6 +267,12 @@ const [productQuantity, setProductQuantity] = useState(1);
         )
         .filter((item) => item.quantity > 0)
     );
+  };
+
+  const openProduct = (product: Product) => {
+    setSelectedProduct(product);
+    setActiveProductPhoto(0);
+    setProductQuantity(1);
   };
 
   const goToPage = (page: number) => {
@@ -322,10 +338,7 @@ const [productQuantity, setProductQuantity] = useState(1);
             <a href="#shop" className="hover:text-[#d85c7a]">
               Shop
             </a>
-            <a
-              href="#collections"
-              className="hover:text-[#d85c7a]"
-            >
+            <a href="#collections" className="hover:text-[#d85c7a]">
               Collections
             </a>
             <a href="#gifting" className="hover:text-[#d85c7a]">
@@ -337,35 +350,32 @@ const [productQuantity, setProductQuantity] = useState(1);
           </nav>
 
           <div className="flex items-center gap-3">
-            
-<button
-  type="button"
-  aria-label="Open shopping bag"
-  onClick={() => setCartOpen(true)}
-  className="group relative flex h-11 w-11 items-center justify-center rounded-full border border-[#eadbd0] bg-[#fffaf4] transition duration-300 hover:border-[#b77c70] hover:bg-[#f7e9df] sm:h-12 sm:w-12"
->
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="#B77C70"
-    strokeWidth="1.35"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className="h-[23px] w-[23px] transition-transform duration-300 group-hover:-translate-y-0.5"
-    aria-hidden="true"
-  >
-    <path d="M5.5 8.5h13l1 11h-15l1-11Z" />
-    <path d="M9 9V6.5a3 3 0 0 1 6 0V9" />
-    <path d="M9 12.5c.4.8 1.1 1.2 2 1.2" stroke="#D5A18E" />
-  </svg>
+            <button
+              type="button"
+              aria-label="Open shopping bag"
+              onClick={() => setCartOpen(true)}
+              className="group relative flex h-11 w-11 items-center justify-center rounded-full border border-[#eadbd0] bg-[#fffaf4] transition duration-300 hover:border-[#b77c70] hover:bg-[#f7e9df] sm:h-12 sm:w-12"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#B77C70"
+                strokeWidth="1.35"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="h-[23px] w-[23px] transition-transform duration-300 group-hover:-translate-y-0.5"
+                aria-hidden="true"
+              >
+                <path d="M5.5 8.5h13l1 11h-15l1-11Z" />
+                <path d="M9 9V6.5a3 3 0 0 1 6 0V9" />
+                <path d="M9 12.5c.4.8 1.1 1.2 2 1.2" stroke="#D5A18E" />
+              </svg>
 
-  <span
-    className="absolute -right-1 -top-1 flex h-[19px] min-w-[19px] items-center justify-center rounded-full border border-[#fffaf4] bg-[#B77C70] px-1 text-[10px] font-semibold text-white shadow-sm"
-  >
-    {cartCount}
-  </span>
-</button>
+              <span className="absolute -right-1 -top-1 flex h-[19px] min-w-[19px] items-center justify-center rounded-full border border-[#fffaf4] bg-[#B77C70] px-1 text-[10px] font-semibold text-white shadow-sm">
+                {cartCount}
+              </span>
+            </button>
 
             <button
               type="button"
@@ -433,7 +443,6 @@ const [productQuantity, setProductQuantity] = useState(1);
               Thoughtfully created for your home, celebrations
               and the people you love.
             </p>
-            
 
             <div className="mt-8 flex flex-wrap gap-4">
               <a
@@ -457,13 +466,10 @@ const [productQuantity, setProductQuantity] = useState(1);
             </div>
           </div>
 
-          
-<div className="relative mx-auto h-[420px] w-full max-w-lg sm:h-[550px]">
-  {/* Decorative background */}
-  <div className="absolute inset-5 rounded-full bg-[#f2c5ad]" />
-  <div className="absolute inset-14 rounded-full bg-[#e99db5]" />
+          <div className="relative mx-auto h-[420px] w-full max-w-lg sm:h-[550px]">
+            <div className="absolute inset-5 rounded-full bg-[#f2c5ad]" />
+            <div className="absolute inset-14 rounded-full bg-[#e99db5]" />
 
-            {/* Main hero photo */}
             <div className="absolute inset-8 right-16 overflow-hidden rounded-[30px] border-[6px] border-[#fff9f1] shadow-2xl sm:inset-12 sm:right-24">
               <Image
                 src="/images/01_Ethnic_Mosaic_Votive_Candle.jpg"
@@ -475,7 +481,6 @@ const [productQuantity, setProductQuantity] = useState(1);
               />
             </div>
 
-            {/* Small photo: Ocean Wave */}
             <div className="absolute right-0 top-8 h-28 w-28 overflow-hidden rounded-full border-4 border-[#fff9f1] shadow-xl sm:right-1 sm:top-12 sm:h-36 sm:w-36">
               <Image
                 src="/images/07_Ocean_Wave_Gel_Cloud_Candle.jpg"
@@ -486,7 +491,6 @@ const [productQuantity, setProductQuantity] = useState(1);
               />
             </div>
 
-            {/* Small photo: Golden Heirloom */}
             <div className="absolute bottom-8 left-0 h-28 w-28 overflow-hidden rounded-full border-4 border-[#fff9f1] shadow-xl sm:bottom-12 sm:h-36 sm:w-36">
               <Image
                 src="/images/2.2_Golden_Heirloom_Candle.jpg"
@@ -579,7 +583,7 @@ const [productQuantity, setProductQuantity] = useState(1);
         </div>
       </section>
 
-      {/* OUR COLLECTION: FIVE PRODUCTS PER PAGE */}
+      {/* OUR COLLECTION */}
       <section
         id="shop"
         className="scroll-mt-20 bg-[#fff9f1] px-5 py-16 sm:px-8 sm:py-20"
@@ -606,114 +610,108 @@ const [productQuantity, setProductQuantity] = useState(1);
                     ?.quantity ?? 0;
 
                 return (
-                 
-<div key={product.name} className="min-w-0">
-  <div
-    role="button"
-    tabIndex={0}
-    aria-label={`View details for ${product.name}`}
-    onClick={() => {
-      setSelectedProduct(product);
-      setActiveProductPhoto(0);
-      setProductQuantity(1);
-    }}
-    onKeyDown={(event) => {
-      // Only open the overview when the card itself has focus.
-      // Keyboard actions on nested buttons must not open it.
-      if (event.target !== event.currentTarget) return;
+                  <div key={product.name} className="min-w-0">
+                    <div
+                      role="button"
+                      tabIndex={0}
+                      aria-label={`View details for ${product.name}`}
+                      onClick={() => openProduct(product)}
+                      onKeyDown={(event) => {
+                        if (event.target !== event.currentTarget) return;
 
-      if (event.key === "Enter" || event.key === " ") {
-        event.preventDefault();
-        setSelectedProduct(product);
-        setActiveProductPhoto(0);
-        setProductQuantity(1);
-      }
-    }}
-    className="group relative aspect-[4/5] cursor-pointer overflow-hidden rounded-2xl bg-[#f3e9df]"
-  >
-    <Image
-      src={product.image}
-      alt={product.name}
-      fill
-      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
-      className="object-cover transition duration-500 group-hover:scale-105"
-    />
+                        if (
+                          event.key === "Enter" ||
+                          event.key === " "
+                        ) {
+                          event.preventDefault();
+                          openProduct(product);
+                        }
+                      }}
+                      className="group relative aspect-[4/5] cursor-pointer overflow-hidden rounded-2xl bg-[#f3e9df]"
+                    >
+                      <Image
+                        src={product.image}
+                        alt={product.name}
+                        fill
+                        sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
+                        className="object-cover transition duration-500 group-hover:scale-105"
+                      />
 
-    <span className="absolute left-2 top-2 rounded-full bg-white/90 px-2.5 py-1 text-[9px] font-semibold uppercase tracking-wider sm:left-3 sm:top-3 sm:text-[10px]">
-      {product.tag}
-    </span>
+                      <span className="absolute left-2 top-2 rounded-full bg-white/90 px-2.5 py-1 text-[9px] font-semibold uppercase tracking-wider sm:left-3 sm:top-3 sm:text-[10px]">
+                        {product.tag}
+                      </span>
 
-    <div className="absolute bottom-3 left-2 right-2 sm:bottom-4 sm:left-3 sm:right-3">
-      {quantity === 0 ? (
-        <button
-          type="button"
-          onClick={(event) => {
-            event.stopPropagation();
-            addToCart(product);
-          }}
-          className="w-full rounded-full bg-white py-3 text-xs font-semibold shadow-lg transition hover:bg-[#d85c7a] hover:text-white sm:text-sm"
-        >
-          Add to cart
-        </button>
-      ) : (
-        <div
-          className="flex items-center justify-between rounded-full bg-white px-2 py-2 shadow-lg"
-          onClick={(event) => event.stopPropagation()}
-        >
-          <button
-            type="button"
-            aria-label={`Decrease ${product.name} quantity`}
-            onClick={(event) => {
-              event.stopPropagation();
-              updateQuantity(product.name, -1);
-            }}
-            className="flex h-8 w-8 items-center justify-center rounded-full border border-[#eadbd0] text-lg transition hover:bg-[#f7e9df]"
-          >
-            −
-          </button>
+                      <div className="absolute bottom-3 left-2 right-2 sm:bottom-4 sm:left-3 sm:right-3">
+                        {quantity === 0 ? (
+                          <button
+                            type="button"
+                            onClick={(event) => {
+                              event.stopPropagation();
+                              addToCart(product);
+                            }}
+                            className="w-full rounded-full bg-white py-3 text-xs font-semibold shadow-lg transition hover:bg-[#d85c7a] hover:text-white sm:text-sm"
+                          >
+                            Add to cart
+                          </button>
+                        ) : (
+                          <div
+                            className="flex items-center justify-between rounded-full bg-white px-2 py-2 shadow-lg"
+                            onClick={(event) => event.stopPropagation()}
+                          >
+                            <button
+                              type="button"
+                              aria-label={`Decrease ${product.name} quantity`}
+                              onClick={(event) => {
+                                event.stopPropagation();
+                                updateQuantity(product.name, -1);
+                              }}
+                              className="flex h-8 w-8 items-center justify-center rounded-full border border-[#eadbd0] text-lg transition hover:bg-[#f7e9df]"
+                            >
+                              −
+                            </button>
 
-          <span className="text-sm font-semibold">
-            {quantity}
-          </span>
+                            <span className="text-sm font-semibold">
+                              {quantity}
+                            </span>
 
-          <button
-            type="button"
-            aria-label={`Increase ${product.name} quantity`}
-            onClick={(event) => {
-              event.stopPropagation();
-              addToCart(product);
-            }}
-            className="flex h-8 w-8 items-center justify-center rounded-full bg-[#d85c7a] text-lg text-white transition hover:bg-[#bd4c69]"
-          >
-            +
-          </button>
-        </div>
-      )}
-    </div>
-  </div>
+                            <button
+                              type="button"
+                              aria-label={`Increase ${product.name} quantity`}
+                              onClick={(event) => {
+                                event.stopPropagation();
+                                addToCart(product);
+                              }}
+                              className="flex h-8 w-8 items-center justify-center rounded-full bg-[#d85c7a] text-lg text-white transition hover:bg-[#bd4c69]"
+                            >
+                              +
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    </div>
 
-  <div className="mt-3">
-    <h3 className="text-sm font-semibold leading-5 sm:text-base">
-      {product.name}
-    </h3>
-
-    <p className="mt-1 text-sm font-semibold">
-      {product.price}
-    </p>
-
-    <p className="mt-1 text-xs text-[#8c6b5d]">
-      Handcrafted candle
-    </p>
-  </div>
-</div>
-
+                    <div className="mt-3">
+                      <h3 className="text-sm font-semibold leading-5 sm:text-base">
+                        {product.name}
+                      </h3>
+                      <p className="mt-1 text-sm font-semibold">
+                        {product.price}
+                      </p>
+                      <p className="mt-1 text-xs text-[#8c6b5d]">
+                        Handcrafted candle
+                      </p>
+                    </div>
+                  </div>
                 );
               })}
           </div>
 
           {/* PAGE NUMBERS */}
           <div className="mt-12 flex items-center justify-center gap-3">
-            {Array.from({ length: Math.ceil(products.length / 5) }, (_, index) => index + 1).map((page) => (
+            {Array.from(
+              { length: Math.ceil(products.length / 5) },
+              (_, index) => index + 1
+            ).map((page) => (
               <button
                 key={page}
                 type="button"
@@ -733,8 +731,10 @@ const [productQuantity, setProductQuantity] = useState(1);
           </div>
 
           <p className="mt-3 text-center text-xs text-[#8c6b5d]">
-            Page {collectionPage} of {Math.ceil(products.length / 5)} · Showing candles {" "}
-            {(collectionPage - 1) * 5 + 1}–{Math.min(collectionPage * 5, products.length)}
+            Page {collectionPage} of {Math.ceil(products.length / 5)} ·
+            Showing candles{" "}
+            {(collectionPage - 1) * 5 + 1}–
+            {Math.min(collectionPage * 5, products.length)}
           </p>
         </div>
       </section>
@@ -919,7 +919,10 @@ const [productQuantity, setProductQuantity] = useState(1);
               <a href="#story" className="block hover:text-[#d85c7a]">
                 Our Story
               </a>
-              <a href="mailto:hello@lightandfragrance.in" className="block hover:text-[#d85c7a]">
+              <a
+                href="mailto:hello@lightandfragrance.in"
+                className="block hover:text-[#d85c7a]"
+              >
                 Contact Us
               </a>
             </div>
@@ -952,8 +955,7 @@ const [productQuantity, setProductQuantity] = useState(1);
         </div>
       </footer>
 
-      
-      {/* PREMIUM SHOPPING BAG */}
+      {/* SHOPPING BAG */}
       {cartOpen && (
         <div
           className="fixed inset-0 z-[100] flex justify-end bg-[#21151f]/50 backdrop-blur-sm"
@@ -966,7 +968,6 @@ const [productQuantity, setProductQuantity] = useState(1);
             className="flex h-full w-full max-w-md flex-col bg-[#fffaf4] shadow-2xl animate-in slide-in-from-right duration-300"
             onClick={(event) => event.stopPropagation()}
           >
-            {/* Header */}
             <div className="border-b border-[#eadbd0] px-6 py-6 sm:px-8">
               <div className="flex items-center justify-between">
                 <div>
@@ -980,7 +981,8 @@ const [productQuantity, setProductQuantity] = useState(1);
                     Your shopping bag
                   </h2>
                   <p className="mt-1 text-sm text-[#8c756d]">
-                    {cartCount} {cartCount === 1 ? "beautiful find" : "beautiful finds"}
+                    {cartCount}{" "}
+                    {cartCount === 1 ? "beautiful find" : "beautiful finds"}
                   </p>
                 </div>
 
@@ -1001,7 +1003,6 @@ const [productQuantity, setProductQuantity] = useState(1);
               )}
             </div>
 
-            {/* Cart contents */}
             <div className="flex-1 overflow-y-auto px-5 py-5 sm:px-8">
               {cart.length === 0 ? (
                 <div className="flex h-full min-h-[300px] flex-col items-center justify-center text-center">
@@ -1012,7 +1013,8 @@ const [productQuantity, setProductQuantity] = useState(1);
                     A little light is missing
                   </h3>
                   <p className="mt-3 max-w-xs text-sm leading-7 text-[#8c756d]">
-                    Your bag is waiting for something beautiful. Explore our handcrafted candles and find your favourite.
+                    Your bag is waiting for something beautiful. Explore
+                    our handcrafted candles and find your favourite.
                   </p>
                   <button
                     type="button"
@@ -1079,7 +1081,8 @@ const [productQuantity, setProductQuantity] = useState(1);
                           </div>
 
                           <p className="text-sm font-semibold text-[#352332]">
-                            ₹{(
+                            ₹
+                            {(
                               Number(item.price.replace(/[₹,]/g, "")) *
                               item.quantity
                             ).toLocaleString("en-IN")}
@@ -1092,7 +1095,6 @@ const [productQuantity, setProductQuantity] = useState(1);
               )}
             </div>
 
-            {/* Order summary */}
             {cart.length > 0 && (
               <div className="border-t border-[#eadbd0] bg-white px-6 py-6 sm:px-8">
                 <div className="flex items-center justify-between text-sm">
@@ -1112,7 +1114,8 @@ const [productQuantity, setProductQuantity] = useState(1);
                 </div>
 
                 <p className="mt-2 text-xs leading-5 text-[#8c756d]">
-                  Delivery charges, availability and final order details will be confirmed on WhatsApp.
+                  Delivery charges, availability and final order details
+                  will be confirmed on WhatsApp.
                 </p>
 
                 <button
@@ -1132,7 +1135,6 @@ const [productQuantity, setProductQuantity] = useState(1);
           </div>
         </div>
       )}
-
 
       {/* PRODUCT OVERVIEW MODAL */}
       {selectedProduct && (
@@ -1161,45 +1163,69 @@ const [productQuantity, setProductQuantity] = useState(1);
             </p>
 
             <div className="grid gap-7 pt-3 md:grid-cols-2">
-              <div>
-                <div className="relative aspect-square overflow-hidden rounded-2xl bg-[#f3e9df]">
-                  <Image
-                    src={selectedProduct.image}
-                    alt={selectedProduct.name}
-                    fill
-                    sizes="(max-width: 768px) 90vw, 45vw"
-                    className="object-cover"
-                  />
-                </div>
+              {/* PRODUCT GALLERY — fixed: one main image and one thumbnail row */}
+              <div className="min-w-0">
+                {(() => {
+                  const photos =
+                    selectedProduct.name === "Diet Coke Candle"
+                      ? [
+                          selectedProduct.image,
+                          "/images/diet-coke-2.jpg",
+                          "/images/diet-coke-3.jpg",
+                        ]
+                      : [selectedProduct.image];
 
-                <div className="mt-3 grid grid-cols-3 gap-3">
-                  {[0, 1, 2].map((photoIndex) => (
-                    <button
-                      key={photoIndex}
-                      type="button"
-                      onClick={() => setActiveProductPhoto(photoIndex)}
-                      aria-label={`View product photo ${photoIndex + 1}`}
-                      className={`relative aspect-square overflow-hidden rounded-xl border-2 ${
-                        activeProductPhoto === photoIndex
-                          ? "border-[#d85c7a]"
-                          : "border-transparent"
-                      }`}
-                    >
-                      <Image
-                        src={selectedProduct.image}
-                        alt={`${selectedProduct.name} view ${photoIndex + 1}`}
-                        fill
-                        sizes="120px"
-                        className="object-cover"
-                      />
-                    </button>
-                  ))}
-                </div>
-                <p className="mt-2 text-xs text-[#8c6b5d]">
-                  Add alternate product photos to display different angles here.
-                </p>
+                  const currentPhoto =
+                    photos[activeProductPhoto] ?? photos[0];
+
+                  return (
+                    <>
+                      <div className="relative aspect-square w-full overflow-hidden rounded-2xl bg-[#f3e9df]">
+                        <Image
+                          src={currentPhoto}
+                          alt={selectedProduct.name}
+                          fill
+                          sizes="(max-width: 768px) 90vw, 45vw"
+                          className="object-cover"
+                        />
+                      </div>
+
+                      {photos.length > 1 && (
+                        <div className="mt-3 grid grid-cols-3 gap-3">
+                          {photos.map((photo, photoIndex) => (
+                            <button
+                              key={photo}
+                              type="button"
+                              onClick={() =>
+                                setActiveProductPhoto(photoIndex)
+                              }
+                              aria-label={`View product photo ${photoIndex + 1}`}
+                              aria-pressed={
+                                activeProductPhoto === photoIndex
+                              }
+                              className={`relative aspect-square overflow-hidden rounded-xl border-2 ${
+                                activeProductPhoto === photoIndex
+                                  ? "border-[#d85c7a]"
+                                  : "border-transparent"
+                              }`}
+                            >
+                              <Image
+                                src={photo}
+                                alt={`${selectedProduct.name} view ${photoIndex + 1}`}
+                                fill
+                                sizes="120px"
+                                className="object-cover"
+                              />
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </>
+                  );
+                })()}
               </div>
 
+              {/* PRODUCT DETAILS */}
               <div>
                 <span className="inline-block rounded-full bg-[#f3dfd0] px-3 py-1 text-xs font-semibold text-[#8c4c5e]">
                   {selectedProduct.tag}
@@ -1217,19 +1243,25 @@ const [productQuantity, setProductQuantity] = useState(1);
                 </p>
 
                 <p className="mt-4 leading-7 text-[#765e56]">
-                  {(productDetails[selectedProduct.name] ??
-                    defaultProductDetails).description}
+                  {(
+                    productDetails[selectedProduct.name] ??
+                    defaultProductDetails
+                  ).description}
                 </p>
 
                 <ul className="mt-5 space-y-2 text-sm text-[#765e56]">
-                  {(productDetails[selectedProduct.name] ??
-                    defaultProductDetails).features.map((feature) => (
+                  {(
+                    productDetails[selectedProduct.name] ??
+                    defaultProductDetails
+                  ).features.map((feature) => (
                     <li key={feature}>✦ {feature}</li>
                   ))}
                 </ul>
 
+                {/* QUANTITY SELECTOR */}
                 <div className="mt-6 flex items-center gap-4">
                   <span className="text-sm font-semibold">Quantity</span>
+
                   <div className="flex items-center gap-4 rounded-full border border-[#eadbd0] bg-white px-3 py-2">
                     <button
                       type="button"
@@ -1244,9 +1276,11 @@ const [productQuantity, setProductQuantity] = useState(1);
                     >
                       −
                     </button>
+
                     <span className="min-w-4 text-center">
                       {productQuantity}
                     </span>
+
                     <button
                       type="button"
                       aria-label="Increase quantity"
@@ -1260,6 +1294,7 @@ const [productQuantity, setProductQuantity] = useState(1);
                   </div>
                 </div>
 
+                {/* ADD TO BAG */}
                 <button
                   type="button"
                   onClick={() => {
@@ -1273,21 +1308,27 @@ const [productQuantity, setProductQuantity] = useState(1);
                 >
                   Add to Bag · ₹
                   {(
-                    Number(selectedProduct.price.replace(/[₹,]/g, "")) *
-                    productQuantity
+                    Number(
+                      selectedProduct.price.replace(/[₹,]/g, "")
+                    ) * productQuantity
                   ).toLocaleString("en-IN")}
                 </button>
 
+                {/* CUSTOMER REVIEWS */}
                 <div className="mt-9 border-t border-[#eadbd0] pt-6">
                   <h3 className="text-xl font-semibold">
                     Customer Reviews
                   </h3>
+
                   <p className="mt-2 text-sm text-[#765e56]">
-                    Reviews from customers who have experienced this candle.
+                    Reviews from customers who have experienced this
+                    candle.
                   </p>
 
-                  {(productDetails[selectedProduct.name] ??
-                    defaultProductDetails).reviews.length === 0 ? (
+                  {(
+                    productDetails[selectedProduct.name] ??
+                    defaultProductDetails
+                  ).reviews.length === 0 ? (
                     <div className="mt-4 rounded-2xl bg-white p-5">
                       <p className="font-medium">
                         Be the first to review this candle
@@ -1299,8 +1340,10 @@ const [productQuantity, setProductQuantity] = useState(1);
                     </div>
                   ) : (
                     <div className="mt-4 space-y-4">
-                      {(productDetails[selectedProduct.name] ??
-                        defaultProductDetails).reviews.map((review, index) => (
+                      {(
+                        productDetails[selectedProduct.name] ??
+                        defaultProductDetails
+                      ).reviews.map((review, index) => (
                         <div
                           key={`${review.name}-${index}`}
                           className="rounded-2xl bg-white p-4"
