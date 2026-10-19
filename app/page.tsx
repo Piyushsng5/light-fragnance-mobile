@@ -603,7 +603,7 @@ export default function Home() {
 
           <div className="grid grid-cols-2 gap-x-4 gap-y-8 sm:gap-6 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
             {products
-              .slice((collectionPage - 1) * 5, collectionPage * 5)
+              .slice((collectionPage - 1) * 4, collectionPage * 4)
               .map((product) => {
                 const quantity =
                   cart.find((item) => item.name === product.name)
@@ -709,11 +709,11 @@ export default function Home() {
           {/* PAGE NUMBERS */}
           <div className="mt-12 flex items-center justify-center gap-3">
             {Array.from(
-              { length: Math.ceil(products.length / 5) },
+              { length: Math.ceil(products.length / 4) },
               (_, index) => index + 1
             ).map((page) => (
               <button
-                key={page}
+                key={page}    
                 type="button"
                 onClick={() => goToPage(page)}
                 aria-current={
@@ -731,10 +731,10 @@ export default function Home() {
           </div>
 
           <p className="mt-3 text-center text-xs text-[#8c6b5d]">
-            Page {collectionPage} of {Math.ceil(products.length / 5)} ·
-            Showing candles{" "}
-            {(collectionPage - 1) * 5 + 1}–
-            {Math.min(collectionPage * 5, products.length)}
+            Page {collectionPage} of {Math.ceil(products.length / 4)} ·
+Showing candles{" "}
+{(collectionPage - 1) * 4 + 1}–
+{Math.min(collectionPage * 4, products.length)}
           </p>
         </div>
       </section>
