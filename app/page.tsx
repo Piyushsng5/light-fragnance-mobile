@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { supabase } from "@/lib/supabase";
 
 const products = [
   {
@@ -236,6 +237,45 @@ export default function Home() {
   const [reviewRating, setReviewRating] = useState(5);
   const [reviewComment, setReviewComment] = useState("");
   const [reviewMessage, setReviewMessage] = useState("");
+
+  useEffect(() => {
+  if (!selectedProduct) return;
+
+  let cancelled = false;
+
+  const loadReviews = async () => {
+    const productName = selectedProduct.name;
+
+    const { data, error } = await supabase
+      .from("product_reviews")
+      .select("customer_name, rating, comment")
+      .eq("product_name", productName)
+      .order("created_at", { ascending: false });
+
+    if (cancelled) return;
+
+    if (error) {
+      console.error("Error loading reviews:", error);
+      setReviewMessage("Reviews could not be loaded. Please try again.");
+      return;
+    }
+
+    setSubmittedReviews((previous) => ({
+      ...previous,
+      [productName]: (data ?? []).map((review) => ({
+        name: review.customer_name,
+        rating: review.rating,
+        comment: review.comment,
+      })),
+    }));
+  };
+
+  loadReviews();
+
+  return () => {
+    cancelled = true;
+  };
+}, [selectedProduct?.name]);
 
 
   const cartCount = cart.reduce(
@@ -1440,37 +1480,58 @@ Showing candles{" "}
   {/* WRITE A REVIEW */}
   <form
     className="mt-5 space-y-4 rounded-2xl border border-[#eadbd0] bg-white p-4 sm:p-5"
-    onSubmit={(event) => {
-      event.preventDefault();
+    
+onSubmit={async (event) => {
+  event.preventDefault();
 
-      if (!selectedProduct) return;
+  if (!selectedProduct) return;
 
-      const name = reviewName.trim();
-      const comment = reviewComment.trim();
+  const name = reviewName.trim();
+  const comment = reviewComment.trim();
 
-      if (!name || !comment) {
-        setReviewMessage("Please enter your name and review.");
-        return;
-      }
+  if (!name || !comment) {
+    setReviewMessage("Please enter your name and review.");
+    return;
+  }
 
-      setSubmittedReviews((previous) => ({
-        ...previous,
-        [selectedProduct.name]: [
-          ...(previous[selectedProduct.name] ?? []),
-          {
-            name,
-            rating: reviewRating,
-            comment,
-          },
-        ],
-      }));
+  setReviewMessage("Submitting your review...");
 
-      setReviewName("");
-      setReviewRating(5);
-      setReviewComment("");
-      setReviewMessage("Thank you! Your review has been added.");
-    }}
+  const { error } = await supabase
+    .from("product_reviews")
+    .insert({
+      product_name: selectedProduct.name,
+      customer_name: name,
+      rating: reviewRating,
+      comment: comment,
+    });
+
+  if (error) {
+    console.error("Error saving review:", error);
+    setReviewMessage(
+      "Sorry, your review could not be submitted. Please try again."
+    );
+    return;
+  }
+
+  setSubmittedReviews((previous) => ({
+    ...previous,
+    [selectedProduct.name]: [
+      {
+        name,
+        rating: reviewRating,
+        comment,
+      },
+      ...(previous[selectedProduct.name] ?? []),
+    ],
+  }));
+
+  setReviewName("");
+  setReviewRating(5);
+  setReviewComment("");
+  setReviewMessage("Thank you! Your review has been saved.");
+}}
   >
+
     <h4 className="text-lg font-semibold">Write a Review</h4>
 
     <div>
