@@ -989,7 +989,7 @@ Showing candles{" "}
           </div>
         </div>
       </section>
-
+      
       {/* FOOTER */}
       <footer className="border-t border-[#eadbd0] bg-white px-4 py-10 sm:px-8 sm:py-12">
         <div className="mx-auto grid max-w-7xl gap-8 sm:grid-cols-2 sm:gap-10 lg:grid-cols-4">
@@ -1055,6 +1055,17 @@ Showing candles{" "}
             >
               Chat on WhatsApp
             </button>
+
+            <a
+              href="https://www.instagram.com/lightandfragrancecandle/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-3 inline-flex min-h-12 items-center gap-2 rounded-full border border-[#eadbd0] px-5 py-3 text-sm font-semibold text-[#2d1b2e] transition hover:border-[#d85c7a] hover:text-[#d85c7a]"
+            >
+              <span aria-hidden="true">◎</span>
+              Follow us on Instagram ↗
+            </a>
+
           </div>
         </div>
 
