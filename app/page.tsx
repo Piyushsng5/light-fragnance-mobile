@@ -227,6 +227,17 @@ export default function Home() {
   const [activeProductPhoto, setActiveProductPhoto] = useState(0);
   const [productQuantity, setProductQuantity] = useState(1);
 
+
+  const [submittedReviews, setSubmittedReviews] = useState<
+    Record<string, ProductReview[]>
+  >({});
+
+  const [reviewName, setReviewName] = useState("");
+  const [reviewRating, setReviewRating] = useState(5);
+  const [reviewComment, setReviewComment] = useState("");
+  const [reviewMessage, setReviewMessage] = useState("");
+
+
   const cartCount = cart.reduce(
     (total, item) => total + item.quantity,
     0
@@ -341,7 +352,7 @@ export default function Home() {
             onClick={() => setMobileMenuOpen(false)}
             className="absolute left-1/2 top-1/2 max-w-[calc(100%-136px)] -translate-x-1/2 -translate-y-1/2 truncate whitespace-nowrap font-serif text-[11px] font-semibold tracking-tight text-[#2d1b2e] min-[360px]:text-xs sm:hidden"
           >
-            Light & Fragrance
+            LIGHT & FRAGRANCE
           </a>
 
           {/* DESKTOP NAVIGATION */}
@@ -1392,57 +1403,159 @@ Showing candles{" "}
                   ).toLocaleString("en-IN")}
                 </button>
 
-                {/* CUSTOMER REVIEWS */}
-                <div className="mt-7 border-t border-[#eadbd0] pt-5 sm:mt-9 sm:pt-6">
-                  <h3 className="text-xl font-semibold">
-                    Customer Reviews
-                  </h3>
+                
+{/* CUSTOMER REVIEWS */}
+<div className="mt-7 border-t border-[#eadbd0] pt-5 sm:mt-9 sm:pt-6">
+  <h3 className="text-xl font-semibold">Customer Reviews</h3>
 
-                  <p className="mt-2 text-sm text-[#765e56]">
-                    Reviews from customers who have experienced this
-                    candle.
-                  </p>
+  <p className="mt-2 text-sm text-[#765e56]">
+    Reviews from customers who have experienced this candle.
+  </p>
 
-                  {(
-                    productDetails[selectedProduct.name] ??
-                    defaultProductDetails
-                  ).reviews.length === 0 ? (
-                    <div className="mt-4 rounded-2xl bg-white p-4 sm:p-5">
-                      <p className="font-medium">
-                        Be the first to review this candle
-                      </p>
-                      <p className="mt-2 text-sm leading-6 text-[#765e56]">
-                        Customer reviews will appear here when genuine
-                        feedback is collected.
-                      </p>
-                    </div>
-                  ) : (
-                    <div className="mt-4 space-y-4">
-                      {(
-                        productDetails[selectedProduct.name] ??
-                        defaultProductDetails
-                      ).reviews.map((review, index) => (
-                        <div
-                          key={`${review.name}-${index}`}
-                          className="rounded-2xl bg-white p-4"
-                        >
-                          <p className="font-semibold">{review.name}</p>
-                          <p className="mt-1 text-sm text-amber-600">
-                            {"★".repeat(review.rating)}
-                            {"☆".repeat(5 - review.rating)}
-                          </p>
-                          <p className="mt-2 text-sm leading-6 text-[#765e56]">
-                            {review.comment}
-                          </p>
-                        </div>
-                      ))}
-                    </div>
-                  )}
+  {/* EXISTING + NEW REVIEWS */}
+  <div className="mt-4 space-y-4">
+    {[
+      ...(
+        productDetails[selectedProduct.name] ??
+        defaultProductDetails
+      ).reviews,
+      ...(submittedReviews[selectedProduct.name] ?? []),
+    ].map((review, index) => (
+      <div
+        key={`${review.name}-${index}`}
+        className="rounded-2xl border border-[#eadbd0] bg-white p-4"
+      >
+        <p className="font-semibold">{review.name}</p>
+        <p className="mt-1 text-sm text-amber-600">
+          {"★".repeat(review.rating)}
+          {"☆".repeat(5 - review.rating)}
+        </p>
+        <p className="mt-2 text-sm leading-6 text-[#765e56]">
+          {review.comment}
+        </p>
+      </div>
+    ))}
+  </div>
+
+  {/* WRITE A REVIEW */}
+  <form
+    className="mt-5 space-y-4 rounded-2xl border border-[#eadbd0] bg-white p-4 sm:p-5"
+    onSubmit={(event) => {
+      event.preventDefault();
+
+      if (!selectedProduct) return;
+
+      const name = reviewName.trim();
+      const comment = reviewComment.trim();
+
+      if (!name || !comment) {
+        setReviewMessage("Please enter your name and review.");
+        return;
+      }
+
+      setSubmittedReviews((previous) => ({
+        ...previous,
+        [selectedProduct.name]: [
+          ...(previous[selectedProduct.name] ?? []),
+          {
+            name,
+            rating: reviewRating,
+            comment,
+          },
+        ],
+      }));
+
+      setReviewName("");
+      setReviewRating(5);
+      setReviewComment("");
+      setReviewMessage("Thank you! Your review has been added.");
+    }}
+  >
+    <h4 className="text-lg font-semibold">Write a Review</h4>
+
+    <div>
+      <label
+        htmlFor="review-name"
+        className="mb-2 block text-sm font-medium"
+      >
+        Your name
+      </label>
+      <input
+        id="review-name"
+        type="text"
+        value={reviewName}
+        onChange={(event) => setReviewName(event.target.value)}
+        placeholder="Enter your name"
+        maxLength={60}
+        required
+        className="w-full rounded-xl border border-[#eadbd0] px-4 py-3 text-sm outline-none focus:border-[#d85c7a]"
+      />
+    </div>
+
+    <div>
+      <label
+        htmlFor="review-rating"
+        className="mb-2 block text-sm font-medium"
+      >
+        Your rating
+      </label>
+      <select
+        id="review-rating"
+        value={reviewRating}
+        onChange={(event) =>
+          setReviewRating(Number(event.target.value))
+        }
+        className="w-full rounded-xl border border-[#eadbd0] bg-white px-4 py-3 text-sm outline-none focus:border-[#d85c7a]"
+      >
+        <option value={5}>★★★★★ — Loved it!</option>
+        <option value={4}>★★★★☆ — Really good</option>
+        <option value={3}>★★★☆☆ — It's okay</option>
+        <option value={2}>★★☆☆☆ — Could be better</option>
+        <option value={1}>★☆☆☆☆ — Not for me</option>
+      </select>
+    </div>
+
+    <div>
+      <label
+        htmlFor="review-comment"
+        className="mb-2 block text-sm font-medium"
+      >
+        Your review
+      </label>
+      <textarea
+        id="review-comment"
+        value={reviewComment}
+        onChange={(event) => setReviewComment(event.target.value)}
+        placeholder="Share your experience with this candle..."
+        rows={4}
+        maxLength={1000}
+        required
+        className="w-full resize-y rounded-xl border border-[#eadbd0] px-4 py-3 text-sm outline-none focus:border-[#d85c7a]"
+      />
+    </div>
+
+    {reviewMessage && (
+      <p
+        aria-live="polite"
+        className="text-sm text-[#765e56]"
+      >
+        {reviewMessage}
+      </p>
+    )}
+
+    <button
+      type="submit"
+      className="min-h-12 w-full rounded-full bg-[#d85c7a] px-5 py-3 font-semibold text-white transition hover:bg-[#bd4c69]"
+    >
+      Submit Review
+                     </button>
+                   </form>
+                   </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
+      
       )}
     </main>
   );
