@@ -314,7 +314,7 @@ export default function Home() {
       
       {/* HEADER */}
       <header className="sticky top-0 z-50 border-b border-[#eadbd0] bg-[#fff9f1]/95 backdrop-blur-md">
-        <div className="mx-auto flex h-[68px] max-w-7xl items-center justify-between px-4 sm:h-20 sm:px-6 lg:px-8">
+        <div className="relative mx-auto flex h-[68px] max-w-7xl items-center justify-between px-4 sm:h-20 sm:px-6 lg:px-8">
 
           {/* LOGO */}
           <a
@@ -332,6 +332,16 @@ export default function Home() {
               sizes="(max-width: 640px) 64px, 76px"
               className="h-[58px] w-[58px] object-contain sm:h-[72px] sm:w-[72px]"
             />
+          </a>
+
+          {/* CENTERED BRAND NAME — MOBILE */}
+          <a
+            href="#home"
+            aria-label="Light & Fragrance home"
+            onClick={() => setMobileMenuOpen(false)}
+            className="absolute left-1/2 top-1/2 max-w-[calc(100%-136px)] -translate-x-1/2 -translate-y-1/2 truncate whitespace-nowrap font-serif text-[11px] font-semibold tracking-tight text-[#2d1b2e] min-[360px]:text-xs sm:hidden"
+          >
+            Light & Fragrance
           </a>
 
           {/* DESKTOP NAVIGATION */}
